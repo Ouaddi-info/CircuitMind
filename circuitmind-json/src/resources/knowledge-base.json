@@ -1,0 +1,45 @@
+{
+  "services": [
+    {
+      "name": "payment-service",
+      "dependencies": ["fraud-service", "customer-service"],
+      "criticality": "HIGH"
+    }
+  ],
+  "errorPatterns": [
+    {
+      "code": "HTTP_504",
+      "category": "TIMEOUT",
+      "matchers": [
+        "Read timed out",
+        "SocketTimeoutException",
+        "Gateway Timeout"
+      ],
+      "probableCauses": [
+        "downstream latency",
+        "dependency overload"
+      ],
+      "recommendedActions": {
+        "retry": true,
+        "maxAttempts": 3,
+        "backoffMs": 500,
+        "openCircuit": true,
+        "fallback": "cached-response"
+      },
+      "solutionHints": [
+        "check downstream latency",
+        "verify thread pool saturation"
+      ]
+    }
+  ],
+  "circuitPolicies": [
+    {
+      "service": "payment-service",
+      "failureRateThreshold": 50,
+      "slowCallRateThreshold": 60,
+      "slowCallDurationMs": 2000,
+      "minimumNumberOfCalls": 10,
+      "waitDurationOpenStateMs": 15000
+    }
+  ]
+}
