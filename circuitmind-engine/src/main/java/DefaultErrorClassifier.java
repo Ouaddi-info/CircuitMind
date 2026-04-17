@@ -1,6 +1,9 @@
 import decision.ErrorDecision;
+import model.ErrorPatternDefinition;
+import spi.KnowledgeBase;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DefaultErrorClassifier {
 
