@@ -1,5 +1,11 @@
 package io.circuitmind.json;
 
+import model.ErrorPatternDefinition;
+import model.ProjectKnowledge;
+import spi.KnowledgeBase;
+
+import java.util.Optional;
+
 public class JsonKnowledgeBase implements KnowledgeBase {
 
     private final ProjectKnowledge knowledge;

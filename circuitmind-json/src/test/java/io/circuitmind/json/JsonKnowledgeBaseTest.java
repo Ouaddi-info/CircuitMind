@@ -1,5 +1,6 @@
 package io.circuitmind.json;
 
+import model.ProjectKnowledge;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

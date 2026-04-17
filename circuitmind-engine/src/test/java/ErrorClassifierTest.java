@@ -1,4 +1,7 @@
 import decision.ErrorDecision;
+import io.circuitmind.json.JsonKnowledgeBase;
+import io.circuitmind.json.JsonKnowledgeLoader;
+import model.ProjectKnowledge;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

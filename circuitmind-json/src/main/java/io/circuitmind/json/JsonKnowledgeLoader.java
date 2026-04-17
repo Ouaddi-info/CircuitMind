@@ -1,5 +1,6 @@
 package io.circuitmind.json;
 
+import model.ProjectKnowledge;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
