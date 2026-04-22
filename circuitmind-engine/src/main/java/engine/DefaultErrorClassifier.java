@@ -1,3 +1,5 @@
+package engine;
+
 import decision.ErrorDecision;
 import model.ErrorPatternDefinition;
 import spi.KnowledgeBase;

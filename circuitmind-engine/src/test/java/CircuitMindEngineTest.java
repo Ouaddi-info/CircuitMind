@@ -1,3 +1,4 @@
+import engine.CircuitMindEngine;
 import io.circuitmind.json.JsonKnowledgeBase;
 import io.circuitmind.json.JsonKnowledgeLoader;
 import model.ProjectKnowledge;

@@ -1,19 +1,29 @@
 package starter.aop;
 
-import io.circuitmind.engine.CircuitMindEngine;
-import io.circuitmind.core.policy.RuntimePolicy;
-import io.circuitmind.starter.annotation.AiProtected;
+
+import engine.CircuitMindEngine;
+import io.circuitmind.observability.CircuitMindLogger;
+import io.circuitmind.observability.CircuitMindMetrics;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import policy.RuntimePolicy;
+import starter.annotation.AiProtected;
 
 @Aspect
 public class AiProtectionAspect {
 
     private final CircuitMindEngine engine;
 
-    public AiProtectionAspect(CircuitMindEngine engine) {
+    private final CircuitMindMetrics metrics;
+    private final CircuitMindLogger logger;
+
+
+
+    public AiProtectionAspect(CircuitMindEngine engine, CircuitMindMetrics metrics, CircuitMindLogger logger) {
         this.engine = engine;
+        this.metrics = metrics;
+        this.logger = logger;
     }
 
     @Around("@annotation(aiProtected)")
@@ -32,7 +42,7 @@ public class AiProtectionAspect {
                         Thread.sleep(policy.getBackoffMs());
                         return joinPoint.proceed();
                     } catch (Exception retryException) {
-                        // retry again
+                        metrics.incrementRetry();
                     }
                 }
             }
@@ -42,6 +52,7 @@ public class AiProtectionAspect {
             }
 
             throw e;
+
         }
     }
 }

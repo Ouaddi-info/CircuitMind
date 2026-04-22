@@ -1,4 +1,5 @@
 import decision.ErrorDecision;
+import engine.DefaultErrorClassifier;
 import io.circuitmind.json.JsonKnowledgeBase;
 import io.circuitmind.json.JsonKnowledgeLoader;
 import model.ProjectKnowledge;

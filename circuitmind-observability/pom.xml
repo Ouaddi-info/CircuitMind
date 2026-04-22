@@ -11,6 +11,27 @@
 
     <artifactId>circuitmind-observability</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.circuitmind</groupId>
+            <artifactId>circuitmind-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.circuitmind</groupId>
+            <artifactId>circuitmind-engine</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Metrics -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+            <version>1.16.4</version>
+        </dependency>
+    </dependencies>
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>

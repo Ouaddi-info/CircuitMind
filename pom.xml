@@ -10,11 +10,6 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
     <modules>
-        <module>circuitmind-core</module>
-        <module>circuitmind-json</module>
-        <module>circuitmind-engine</module>
-        <module>circuitmind-spring-boot-starter</module>
-        <module>circuitmind-observability</module>
         <module>demo-order-service</module>
         <module>circuitmind-core</module>
         <module>circuitmind-json</module>
