@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.circuitmind.*;
+import starter.annotation.AiProtected;
 
 @RestController
 @RequestMapping("/test")
@@ -23,15 +24,8 @@ public class TestController {
     }
 
     @GetMapping("/error")
+    @AiProtected(service = "payment-service")
     public String simulateError() {
-        try {
-            throw new RuntimeException("Read timed out");
-        } catch (Exception e) {
-            var policy = engine.analyze(e, "payment-service");
-
-            return "Retry: " + policy.isRetry() +
-                    ", Attempts: " + policy.getMaxAttempts() +
-                    ", Fallback: " + policy.getFallback();
-        }
+        throw new RuntimeException("Read timed out");
     }
 }

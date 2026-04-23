@@ -11,7 +11,7 @@ import model.ProjectKnowledge;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import starter.aop.AiProtectionAspect;
-
+import starter.resilience.ResilienceExecutor;
 
 
 @Configuration
@@ -26,8 +26,13 @@ public class CircuitMindAutoConfiguration {
     }
 
     @Bean
-    public AiProtectionAspect aiProtectionAspect(CircuitMindEngine engine) {
-        return new AiProtectionAspect(engine);
+    public AiProtectionAspect aiProtectionAspect(
+            CircuitMindEngine engine,
+            CircuitMindMetrics metrics,
+            CircuitMindLogger logger,
+            ResilienceExecutor resilienceExecutor) {
+
+        return new AiProtectionAspect(engine, metrics, logger, resilienceExecutor);
     }
 
     @Bean
@@ -38,5 +43,10 @@ public class CircuitMindAutoConfiguration {
     @Bean
     public CircuitMindLogger logger() {
         return new CircuitMindLogger();
+    }
+
+    @Bean
+    public ResilienceExecutor resilienceExecutor() {
+        return new ResilienceExecutor();
     }
 }

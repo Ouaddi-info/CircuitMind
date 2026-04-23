@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import policy.RuntimePolicy;
 import starter.annotation.AiProtected;
+import starter.resilience.ResilienceExecutor;
 
 @Aspect
 public class AiProtectionAspect {
@@ -17,13 +18,18 @@ public class AiProtectionAspect {
 
     private final CircuitMindMetrics metrics;
     private final CircuitMindLogger logger;
+    private final ResilienceExecutor resilienceExecutor;
 
 
 
-    public AiProtectionAspect(CircuitMindEngine engine, CircuitMindMetrics metrics, CircuitMindLogger logger) {
+    public AiProtectionAspect(CircuitMindEngine engine,
+                              CircuitMindMetrics metrics,
+                              CircuitMindLogger logger,
+                              ResilienceExecutor resilienceExecutor) {
         this.engine = engine;
         this.metrics = metrics;
         this.logger = logger;
+        this.resilienceExecutor = resilienceExecutor;
     }
 
     @Around("@annotation(aiProtected)")
@@ -41,8 +47,12 @@ public class AiProtectionAspect {
                     try {
                         Thread.sleep(policy.getBackoffMs());
                         return joinPoint.proceed();
-                    } catch (Exception retryException) {
-                        metrics.incrementRetry();
+                    } catch (Exception executionException) {
+                        if (policy.getFallback() != null) {
+                            metrics.incrementFallback();
+                            return "[Fallback] " + policy.getFallback();
+                        }
+                        throw executionException;
                     }
                 }
             }
