@@ -1,21 +1,94 @@
-# CircuitMind
-AI-assisted resilience library for Java microservices.
+# CircuitMind 🚀
 
-Positioning
+AI-powered resilience engine for Java microservices.
 
-CircuitMind is a Java library that improves microservice resilience by learning from a project knowledge base (JSON) and past execution outcomes. It classifies errors, suggests retry and fallback strategies, and strengthens circuit breaker decisions.
+## 🔥 Vision
 
-MVP 1 Goal
+Transform static resilience patterns into intelligent, adaptive systems.
 
-Deliver a usable Java library that:
+---
 
-reads a JSON knowledge base
-classifies runtime errors
-recommends retry, fallback, and circuit actions
-records outcomes for adaptive tuning
-integrates with Spring Boot and Resilience4j
+## 🧠 What is CircuitMind?
+
+CircuitMind is a Spring Boot starter that:
+- analyzes runtime errors
+- classifies failure patterns
+- generates smart resilience decisions
+- applies retry, circuit breaker, and fallback using Resilience4j
+
+---
+
+## ⚙️ Architecture
+
+Exception
+↓
+Error Classifier
+↓
+Decision Engine
+↓
+Runtime Policy
+↓
+Resilience4j (Retry / Circuit Breaker)
+↓
+Fallback / Response
+
+
+---
+
+## 🚀 Quick Start
+
+### 1. Add dependency
+
+```xml
+<dependency>
+    <groupId>io.circuitmind</groupId>
+    <artifactId>circuitmind-spring-boot-starter</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+</dependency>
+
+## Configure
+
+circuitmind:
+  enabled: true
+  knowledge-base-path: knowledge-base.json
+
+## Use it
+@AiProtected(service = "payment-service")
+public String process() {
+    throw new RuntimeException("Read timed out");
+}
+
+📊 Features
+
+AI-driven error classification
+Dynamic retry & fallback
+Circuit breaker integration (Resilience4j)
+AOP-based interception
+Metrics & observability
+
+
+---
+
+# 🧪 5. Demo Endpoint (مهم جدًا)
+
+في `demo-order-service`:
+
+```java
+@RestController
+@RequestMapping("/demo")
+public class DemoController {
+
+    @GetMapping("/fail")
+    @AiProtected(service = "payment-service")
+    public String fail() {
+        throw new RuntimeException("Read timed out");
+    }
+}
+
+👨‍💻 Author
 
 Mustapha Ouaddi
-Senior/Architect Java ans AI Searcher
+Senior Java Fullstack | AI Systems
+
 
 
