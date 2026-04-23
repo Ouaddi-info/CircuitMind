@@ -8,6 +8,7 @@ import io.circuitmind.observability.CircuitMindLogger;
 import io.circuitmind.observability.CircuitMindMetrics;
 import io.micrometer.core.instrument.MeterRegistry;
 import model.ProjectKnowledge;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import starter.aop.AiProtectionAspect;
@@ -15,12 +16,13 @@ import starter.resilience.ResilienceExecutor;
 
 
 @Configuration
+@EnableConfigurationProperties(CircuitMindProperties.class)
 public class CircuitMindAutoConfiguration {
 
     @Bean
-    public CircuitMindEngine circuitMindEngine() {
+    public CircuitMindEngine circuitMindEngine(CircuitMindProperties properties) {
         JsonKnowledgeLoader loader = new JsonKnowledgeLoader();
-        ProjectKnowledge knowledge = loader.loadFromClasspath("knowledge-base.json");
+        ProjectKnowledge knowledge = loader.loadFromClasspath(properties.getKnowledgeBasePath());
 
         return new CircuitMindEngine(new JsonKnowledgeBase(knowledge));
     }
@@ -30,9 +32,10 @@ public class CircuitMindAutoConfiguration {
             CircuitMindEngine engine,
             CircuitMindMetrics metrics,
             CircuitMindLogger logger,
-            ResilienceExecutor resilienceExecutor) {
+            ResilienceExecutor resilienceExecutor,
+            CircuitMindProperties properties) {
 
-        return new AiProtectionAspect(engine, metrics, logger, resilienceExecutor);
+        return new AiProtectionAspect(engine, metrics, logger, resilienceExecutor, properties);
     }
 
     @Bean
@@ -46,7 +49,7 @@ public class CircuitMindAutoConfiguration {
     }
 
     @Bean
-    public ResilienceExecutor resilienceExecutor() {
-        return new ResilienceExecutor();
+    public ResilienceExecutor resilienceExecutor(CircuitMindProperties properties) {
+        return new ResilienceExecutor(properties);
     }
 }

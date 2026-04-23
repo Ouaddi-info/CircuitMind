@@ -1,3 +1,24 @@
 spring:
   application:
     name: demo-order-service
+
+server:
+  port: 8080
+
+circuitmind:
+  enabled: true
+  knowledge-base-path: knowledge-base.json
+  default-fallback: "cached-response"
+
+  retry:
+    max-attempts: 4
+    backoff-ms: 700
+
+  circuit:
+    failure-rate-threshold: 60
+    sliding-window-size: 12
+    minimum-number-of-calls: 6
+    wait-duration-open-state-ms: 15000
+
+  observability:
+    enabled: true
